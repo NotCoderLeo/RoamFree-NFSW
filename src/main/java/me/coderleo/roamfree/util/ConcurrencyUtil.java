@@ -1,8 +1,7 @@
 /*
- * Licensed under the WTFPL, I don't care what you do
- * as long as you retain the copyright. Please.
+ * RoamFree UDP Server
  *
- * Copyright (c) 2016 leorblx (Original by Nilzao!)
+ * Written by leorblx (Original UDP server by Nilzao!)
  * This is in no way affiliated with EA, or the developers of Need for Speed World.
  */
 

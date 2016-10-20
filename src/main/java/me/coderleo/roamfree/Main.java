@@ -1,17 +1,12 @@
 /*
- * Licensed under the WTFPL, I don't care what you do
- * as long as you retain the copyright. Please.
+ * RoamFree UDP Server
  *
- * Copyright (c) 2016 leorblx (Original by Nilzao!)
+ * Written by leorblx (Original UDP server by Nilzao!)
  * This is in no way affiliated with EA, or the developers of Need for Speed World.
  */
 
 package me.coderleo.roamfree;
 
-import me.coderleo.roamfree.udp.IUdpProtocol;
-import me.coderleo.roamfree.udp.UdpDebugger;
-import me.coderleo.roamfree.udp.UdpServer;
-import me.coderleo.roamfree.udp.protocols.nfsw.freeroam.FreeroamProtocol;
 import me.coderleo.roamfree.util.Log;
 
 public class Main
@@ -21,50 +16,38 @@ public class Main
         Log.setup();
         
         int port = 9998;
-        String protocol = FreeroamProtocol.class.getCanonicalName();
         
-        if (args.length > 0 && args.length != 2)
+        if (args.length > 0 && args.length != 1)
         {
-            Log.error("Usage: java -jar <path to jar> <port> <full protocol class name>");
+            Log.error("Usage: java -jar <path to jar> <port>");
             System.exit(1);
-        } else
+        } else if (args.length > 0)
         {
-            port = new Integer(args[0]);
-            protocol = args[1];
-        }
-        
-        UdpDebugger.startDebugging();
-        Class<?> protocolObj;
-        
-        try
-        {
-            protocolObj = Class.forName(protocol);
-            IUdpProtocol udpProtocol = (IUdpProtocol) protocolObj.newInstance();
-            UdpServer server = new UdpServer(port, udpProtocol);
-            
-            server.start();
-        } catch (ClassNotFoundException e)
-        {
-            Log.error("Could not find protocol class [%s].", protocol);
-            Log.error(e.getMessage());
-            System.exit(1);
-        } catch (InstantiationException | IllegalAccessException e)
-        {
-            Log.error(e.getMessage());
-            System.exit(1);
+            try
+            {
+                port = new Integer(args[0]);
+                
+                if (port < 1025)
+                {
+                    Log.error("No system ports.");
+                    System.exit(1);
+                    return;
+                }
+            } catch (NumberFormatException e)
+            {
+                Log.error("Invalid port. Ports must be integers.");
+                System.exit(1);
+            }
         }
         
         Log.info("");
         Log.info("RoamFree UDP Server\n");
-        Log.info("Nilzao's UDP server, rewritten by Leo <3\n");
-        Log.info("java -jar roamfree-udp.jar <port> <full protocol class name>");
+        Log.info("Nilzao's UDP server, rewritten by leorblx\n");
+        Log.info("java -jar roamfree-udp.jar <port>");
         Log.info("Example:");
-        Log.info("  java -jar roamfree-udp.jar 9001 me.coderleo.roamfree.udp.protocols.nfsw.race.RaceProtocol");
-        Log.info("  java -jar roamfree-udp.jar 9001 me.coderleo.roamfree.udp.protocols.nfsw.freeroam.FreeroamProtocol");
+        Log.info("  java -jar roamfree-udp.jar 9001");
         Log.info("");
-        Log.info("Listening on port %s with protocol %s! GOGOGO!",
-                port,
-                protocol);
+        Log.info("Listening on port %s with all protocols! GOGOGO!", port);
         Log.info("");
     }
 }

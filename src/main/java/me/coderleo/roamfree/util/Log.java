@@ -1,8 +1,7 @@
 /*
- * Licensed under the WTFPL, I don't care what you do
- * as long as you retain the copyright. Please.
+ * RoamFree UDP Server
  *
- * Copyright (c) 2016 leorblx (Original by Nilzao!)
+ * Written by leorblx (Original UDP server by Nilzao!)
  * This is in no way affiliated with EA, or the developers of Need for Speed World.
  */
 
@@ -40,11 +39,6 @@ public class Log
         System.out.println(ansi().fg(GREEN).a(String.format(INFO_PREFIX, getTime().format(new Date())) + String.format(message, params)).reset());
     }
     
-    private static SimpleDateFormat getTime()
-    {
-        return new SimpleDateFormat("HH:mm:ss");
-    }
-    
     public static void success(String message, Object... params)
     {
         System.out.println(ansi().fg(BLUE).a(String.format(SUCCESS_PREFIX, getTime().format(new Date())) + String.format(message, params)).reset());
@@ -58,5 +52,10 @@ public class Log
     public static void error(String message, Object... params)
     {
         System.out.println(ansi().fg(RED).a(String.format(ERROR_PREFIX, getTime().format(new Date())) + String.format(message, params)).reset());
+    }
+    
+    private static SimpleDateFormat getTime()
+    {
+        return new SimpleDateFormat("HH:mm:ss");
     }
 }

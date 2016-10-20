@@ -1,8 +1,7 @@
 /*
- * Licensed under the WTFPL, I don't care what you do
- * as long as you retain the copyright. Please.
+ * RoamFree UDP Server
  *
- * Copyright (c) 2016 leorblx (Original by Nilzao!)
+ * Written by leorblx (Original UDP server by Nilzao!)
  * This is in no way affiliated with EA, or the developers of Need for Speed World.
  */
 
@@ -17,8 +16,14 @@ public class HexUtil
         byte[] data = new byte[len / 2];
         
         for (int i = 0; i < len; i += 2)
-            data[i / 2] = (byte) ((
-                    Character.digit(input.charAt(i), 16) << 4) + Character.digit(input.charAt(i + 1), 16));
+            try
+            {
+                data[i / 2] = (byte) ((
+                        Character.digit(input.charAt(i), 16) << 4) + Character.digit(input.charAt(i + 1), 16));
+            } catch (StringIndexOutOfBoundsException ignored)
+            {
+            }
+            
         return data;
     }
     
@@ -26,7 +31,7 @@ public class HexUtil
     {
         int len = input.length;
         StringBuilder buf = new StringBuilder();
-    
+        
         for (byte anInput : input)
         {
             buf.append(Integer.toHexString((anInput >> 4) & 0xf));
